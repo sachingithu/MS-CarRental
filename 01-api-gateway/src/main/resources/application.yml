@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: 01-api-gateway
+
+  server:
+    port: 4444
+
+  cloud:
+    gateway:
+      routes:
+        - id: appointment-api
+          uri: lb://01-APPOINTMENT-SERVICE
+          predicates:
+            - Path=/api/app/**
+        - id: patient-api
+          uri: lb://01-PATIENT-SERVICE
+          predicates:
+            - Path=/api/patient/**
+        - id: doctor-api
+          uri: lb://02-DOCTOR-SERVICE
+          predicates:
+            - Path=/api/doctor/**
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
